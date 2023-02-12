@@ -61,7 +61,7 @@ public class Robot {
         PhotonCore.enable();
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         gyro.initialize(parameters);
     }
     public double heading() {
