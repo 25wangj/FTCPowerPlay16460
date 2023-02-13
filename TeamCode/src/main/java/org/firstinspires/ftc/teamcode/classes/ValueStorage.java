@@ -22,7 +22,7 @@ public class ValueStorage {
     public static double armKf(double x, double v, double a) {
         return 0.0003 * v;
     }
-    public static double clawClosed = 0.47;
+    public static double clawClosed = 0.50;
     public static double clawOpen = 0.16;
     public static double liftGrab = 150;
     public static double liftLow = 700;
