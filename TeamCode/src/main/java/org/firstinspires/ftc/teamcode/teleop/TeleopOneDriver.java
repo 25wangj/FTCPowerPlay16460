@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.classes.ValueStorage;
 public class TeleopOneDriver extends LinearOpMode {
     Robot robot = new Robot();
     int state = 0;
-    double initialHeading = ValueStorage.lastPose.getHeading() - side * PI / 2;
+    double initialHeading = ValueStorage.lastPose.getHeading() + PI / 2;
     double robotHeading;
     double moveAngle;
     double moveMagnitude;
@@ -40,8 +40,7 @@ public class TeleopOneDriver extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        //robot.init(hardwareMap, 0, armGrabBack, wristGrabBack);
-        robot.init(hardwareMap, 0, armDownFront, wristNeutral);
+        robot.init(hardwareMap, 0, armWait, wristNeutral);
         robot.setLiftPos(clock.seconds(), liftGrab, armDownBack, wristNeutral);
         robot.claw.setPosition(clawOpen);
         while (!isStarted() && !isStopRequested()) {

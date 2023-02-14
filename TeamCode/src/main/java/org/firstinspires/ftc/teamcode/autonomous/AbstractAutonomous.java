@@ -17,13 +17,19 @@ public abstract class AbstractAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap, 0, armDownFront, wristNeutral);
-        detector = new SignalDetector(hardwareMap);
-        detector.init();
+        //detector = new SignalDetector(hardwareMap);
+        //detector.init();
         robot.drive.setPoseEstimate(initPose());
         initialize();
         robot.liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.setLiftPos(clock.seconds() + 0.5, 0, armDropFront, wristDropFront);
+        robot.claw.setPosition(clawClosed);
         while (!isStarted() && !isStopRequested()) {
+            time = clock.seconds();
+            /*
             if (detector.getCaseDetected() == caseDetected) {
                 caseDetectionLength++;
             } else if (detector.getCaseDetected() > 0) {
@@ -33,18 +39,17 @@ public abstract class AbstractAutonomous extends LinearOpMode {
             if (caseDetectionLength >= signalMinCount) {
                 runCase = caseDetected;
             }
-            robot.update(clock.seconds());
+            */
+            robot.update(time);
             telemetry.addData("Case Detected", caseDetected);
             telemetry.addData("Case to Run", runCase);
             telemetry.update();
         }
-        detector.end();
-        side = side();
+        //detector.end();
         run();
         lastPose = robot.drive.getPoseEstimate();
     }
     public abstract void initialize();
     public abstract void run();
-    public abstract int side();
     public abstract Pose2d initPose();
 }

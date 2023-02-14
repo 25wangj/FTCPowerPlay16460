@@ -37,10 +37,5 @@ public class ValueStorage {
     public static double wristDropBack = 0;
     public static double wristDropFront = 0;
     public static int signalMinCount = 10;
-    public static int side = sides.RED;
-    public static class sides {
-        public static final int RED = 1;
-        public static final int BLUE = -1;
-    }
     public static Pose2d lastPose = new Pose2d(0, 0, 0);
 }

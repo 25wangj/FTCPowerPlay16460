@@ -66,6 +66,7 @@ public class Robot {
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         gyro.initialize(parameters);
+        claw.setPosition(clawOpen);
     }
     public double heading() {
         return gyro.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
