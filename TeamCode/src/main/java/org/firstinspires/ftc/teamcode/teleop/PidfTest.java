@@ -132,17 +132,12 @@ public class PidfTest extends LinearOpMode {
             if ((aPressed || bPressed || xPressed || yPressed) && time > liftProfile.getTf() && time > armProfile.getTf()) {
                 t1 = liftProfile.extendTrapezoidal(LIFT_VM, LIFT_AM, time, liftSetPoint, 0).getTf() - time;
                 t2 = armProfile.extendTrapezoidal(ARM_VM, ARM_AM, time, armSetPoint, 0).getTf() - time;
-                if (t1 == 0 && t2 == 0) {
-                    f1 = 0;
-                    f2 = 0;
-                } if (t1 == 0) {
-                    f1 = 0;
-                    f2 = 1;
-                } else if (t2 == 0) {
-                    f1 = 1;
-                    f2 = 0;
-                } else {
+                f1 = 0;
+                f2 = 0;
+                if (t1 != 0) {
                     f1 = max(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
+                }
+                if (t2 != 0) {
                     f2 = max(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
                 }
                 liftProfile = liftProfile.extendTrapezoidal(LIFT_VM * f1, LIFT_AM * f1 * f1, time, liftSetPoint, 0);

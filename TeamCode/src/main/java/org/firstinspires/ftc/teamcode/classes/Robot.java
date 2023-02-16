@@ -85,19 +85,12 @@ public class Robot {
     public void setLiftPos(double time, double liftX, double armX, double wristPos) {
         double t1 = liftProfile.extendTrapezoidal(liftVm, liftAm, time, liftX, 0).getTf() - time;
         double t2 = armProfile.extendTrapezoidal(armVm, armAm, time, armX, 0).getTf() - time;
-        double f1;
-        double f2;
-        if (t1 == 0 && t2 == 0) {
-            f1 = 0;
-            f2 = 0;
-        } else if (t1 == 0) {
-            f1 = 0;
-            f2 = 1;
-        } else if (t2 == 0) {
-            f1 = 1;
-            f2 = 0;
-        } else {
+        double f1 = 0;
+        double f2 = 0;
+        if (t1 != 0) {
             f1 = max(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
+        }
+        if (t2 != 0) {
             f2 = max(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
         }
         liftProfile = liftProfile.extendTrapezoidal(liftVm * f1, liftAm * f1 * f1, time, liftX, 0);
