@@ -46,7 +46,6 @@ public class TeleopOneDriver extends LinearOpMode {
         robot.init(hardwareMap, 0, armWait, wristNeutral);
         robot.startGyro(this);
         robot.setLiftPos(clock.seconds(), liftGrab, armDownBack, wristNeutral);
-        robot.claw.setPosition(clawOpen);
         while (!isStarted() && !isStopRequested()) {
             time = clock.seconds();
             robot.update(time);
