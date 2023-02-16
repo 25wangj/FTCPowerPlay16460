@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.classes;
 import static java.lang.Math.*;
 import static org.firstinspires.ftc.teamcode.classes.ValueStorage.*;
+import androidx.annotation.GuardedBy;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -24,6 +25,9 @@ public class Robot {
     public DcMotorEx liftR;
     public Servo claw;
     public Servo wrist;
+    private final Object gyroLock = new Object();
+    private double heading;
+    @GuardedBy("gyroLock")
     public IMU gyro;
     PidfController liftPidf = new PidfController(liftKp, liftKi, liftKd) {
         @Override
@@ -58,40 +62,47 @@ public class Robot {
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftProfile = new DelayProfile(0, liftX, 0,0);
         armProfile = new DelayProfile(0, armX, 0, 0);
         wristProfile = new DelayProfile(0, wristX, 0, 0);
         PhotonCore.enable();
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        gyro.initialize(parameters);
+        synchronized (gyroLock) {
+            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
+            gyro.initialize(parameters);
+        }
         claw.setPosition(clawOpen);
-    }
-    public double heading() {
-        return gyro.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
     }
     public double restTime() {
         return max(max(liftProfile.getTf(), armProfile.getTf()), wristProfile.getTf());
     }
+    public double heading() {
+        return heading;
+    }
     public void setLiftPos(double time, double liftX, double armX, double wristPos) {
-        double t1 = liftProfile.extendTrapezoidal(liftAm, liftVm, time, liftX, 0).getTf() - time;
-        double t2 = armProfile.extendTrapezoidal(armAm, armVm, time, armX, 0).getTf() - time;
+        double t1 = liftProfile.extendTrapezoidal(liftVm, liftAm, time, liftX, 0).getTf() - time;
+        double t2 = armProfile.extendTrapezoidal(armVm, armAm, time, armX, 0).getTf() - time;
         double f1;
         double f2;
-        if (t1 == 0) {
+        if (t1 == 0 && t2 == 0) {
+            f1 = 0;
+            f2 = 0;
+        } else if (t1 == 0) {
             f1 = 0;
             f2 = 1;
         } else if (t2 == 0) {
             f1 = 1;
             f2 = 0;
         } else {
-            f1 = 1 / (t1 * armMaxPower / t2 + liftMaxPower);
-            f2 = 1 / (t2 * liftMaxPower / t1 + armMaxPower);
+            f1 = 1 / (t2 * armMaxPower / t1 + liftMaxPower);
+            f2 = 1 / (t1 * liftMaxPower / t2 + armMaxPower);
         }
-        liftProfile = liftProfile.extendTrapezoidal(liftAm * f1, liftVm * f1, time, liftX, 0);
-        armProfile = armProfile.extendTrapezoidal(armAm * f2, armVm * f2, time, armX, 0);
-        wristProfile = wristProfile.extendTrapezoidal(wristAm, wristVm, time, wristPos, 0);
+        liftProfile = liftProfile.extendTrapezoidal(liftVm * f1, liftAm * f1 * f1, time, liftX, 0);
+        armProfile = armProfile.extendTrapezoidal(armVm * f2, armAm * f2 * f2, time, armX, 0);
+        wristProfile = wristProfile.extendTrapezoidal(wristVm, wristAm, time, wristPos, 0);
     }
     public void update(double time) {
         liftPidf.set(liftProfile.getX(time));
@@ -107,5 +118,16 @@ public class Robot {
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
+    }
+    public void startGyro(LinearOpMode opMode) {
+        Thread gyroThread = new Thread(() -> {
+            opMode.waitForStart();
+            while (opMode.opModeIsActive() && !opMode.isStopRequested()) {
+                synchronized (gyroLock) {
+                    heading = gyro.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+                }
+            }
+        });
+        gyroThread.start();
     }
 }

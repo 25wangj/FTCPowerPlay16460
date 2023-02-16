@@ -16,11 +16,11 @@ public class TeleopOneDriver extends LinearOpMode {
     Robot robot = new Robot();
     int state = 0;
     double initialHeading = ValueStorage.lastPose.getHeading() + PI / 2;
-    double robotHeading;
     double moveAngle;
     double moveMagnitude;
     double turn;
     double time;
+    double lastTime = 0;
     double lastLiftX = liftHigh;
     double lastArmX = armDropFront;
     double lastWristX = wristNeutral;
@@ -45,10 +45,12 @@ public class TeleopOneDriver extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap, 0, armWait, wristNeutral);
+        robot.startGyro(this);
         robot.setLiftPos(clock.seconds(), liftGrab, armDownBack, wristNeutral);
         robot.claw.setPosition(clawOpen);
         while (!isStarted() && !isStopRequested()) {
-            robot.update(clock.seconds());
+            time = clock.seconds();
+            robot.update(time);
         }
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.a) {
@@ -94,7 +96,7 @@ public class TeleopOneDriver extends LinearOpMode {
                 rbReleased = true;
             }
             if (gamepad1.ps) {
-                initialHeading -= robotHeading;
+                initialHeading = -robot.heading();
             }
             time = clock.seconds();
             if (state == 0 && time > robot.restTime()) {
@@ -134,7 +136,7 @@ public class TeleopOneDriver extends LinearOpMode {
                         } else {
                             robot.setLiftPos(time + 0.25, liftGrab, armDownFront, wristNeutral);
                         }
-                        state = 1;
+                        state = 0;
                     } else if (gamepad1.left_trigger > 0.2) {
                         robot.setLiftPos(time, 0, armWait, wristNeutral);
                         waiting = true;
@@ -240,17 +242,20 @@ public class TeleopOneDriver extends LinearOpMode {
                 }
             }
             robot.update(time);
-            robotHeading = robot.heading() + initialHeading;
-            moveAngle = atan2(-gamepad1.left_stick_x, -gamepad1.left_stick_y) - robotHeading;
-            moveMagnitude = pow(pow(gamepad1.left_stick_x, 2) + pow(gamepad1.left_stick_y, 2), 1.5);
-            if (moveMagnitude < 0.01) {
+            moveAngle = atan2(-gamepad1.left_stick_x, -gamepad1.left_stick_y) - robot.heading() - initialHeading;
+            moveMagnitude = gamepad1.left_stick_x * gamepad1.left_stick_x + gamepad1.left_stick_y * gamepad1.left_stick_y;
+            turn = gamepad1.right_stick_x * abs(gamepad1.right_stick_x);
+            if (moveMagnitude < 0.02) {
                 moveMagnitude = 0;
             }
-            turn = pow(gamepad1.right_stick_x, 3);
+            if (abs(turn) < 0.02) {
+                turn = 0;
+            }
             robot.setDrivePowers(moveMagnitude * clip(sin(PI / 4 - moveAngle) / abs(cos(PI / 4 - moveAngle)), -1, 1) + turn,
                     moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)), -1, 1) - turn,
-                    moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)), -1, 1) + turn,
+                    moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)),     -1, 1) + turn,
                     moveMagnitude * clip(sin(PI / 4 - moveAngle) / abs(cos(PI / 4 - moveAngle)), -1, 1) - turn);
+            lastTime = time;
         }
     }
 }

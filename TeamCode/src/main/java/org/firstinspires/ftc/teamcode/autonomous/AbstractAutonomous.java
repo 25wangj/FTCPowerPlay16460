@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 import static org.firstinspires.ftc.teamcode.classes.ValueStorage.*;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,13 +11,14 @@ import org.firstinspires.ftc.teamcode.classes.SignalDetector;
 public abstract class AbstractAutonomous extends LinearOpMode {
     public Robot robot = new Robot();
     SignalDetector detector;
-    int runCase = 2;
-    int caseDetected = 2;
+    int runCase = 1;
+    int caseDetected = 1;
     int caseDetectionLength = 0;
     ElapsedTime clock = new ElapsedTime();
     double time;
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap, 0, armDownFront, wristNeutral);
         //detector = new SignalDetector(hardwareMap);
         //detector.init();
@@ -25,7 +28,7 @@ public abstract class AbstractAutonomous extends LinearOpMode {
         robot.liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.setLiftPos(clock.seconds() + 0.5, 0, armDropFront, wristDropFront);
+        robot.setLiftPos(clock.seconds() + 1, 0, armDropFront, wristDropFront);
         robot.claw.setPosition(clawClosed);
         while (!isStarted() && !isStopRequested()) {
             time = clock.seconds();

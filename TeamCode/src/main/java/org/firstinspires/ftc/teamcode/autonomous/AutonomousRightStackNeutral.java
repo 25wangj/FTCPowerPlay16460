@@ -27,7 +27,7 @@ public class AutonomousRightStackNeutral extends AbstractAutonomous {
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .splineTo(new Vector2d(-35, 45), -PI / 2)
-                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
+                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose1.vec(), dropPose1.getHeading())
                 .addTemporalMarker(1, -2, () -> {
                     robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);

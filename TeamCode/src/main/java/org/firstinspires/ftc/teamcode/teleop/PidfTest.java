@@ -16,19 +16,23 @@ public class PidfTest extends LinearOpMode {
     Robot robot = new Robot();
     double time = 0;
     double liftSetPoint = 0;
-    double armSetPoint = 0;
-    public static double LIFT_KV = 0;
-    public static double LIFT_KA = 0;
+    double armSetPoint = armDownFront;
+    double t1 = 0;
+    double t2 = 0;
+    double f1 = 0;
+    double f2 = 0;
+    public static double LIFT_KV = 0.0002;
+    public static double LIFT_KA = 0.00001;
     public static double ARM_KV = 0.0003;
     public static double ARM_KA = 0;
-    public static double LIFT_KP = 0.005;
+    public static double LIFT_KP = 0.01;
     public static double LIFT_KI = 0;
     public static double LIFT_KD = 0;
-    public static double ARM_KP = 0.01;
+    public static double ARM_KP = 0.02;
     public static double ARM_KI = 0;
     public static double ARM_KD = 0;
-    public static double LIFT_VM = 4000;
-    public static double LIFT_AM = 7500;
+    public static double LIFT_VM = 3000;
+    public static double LIFT_AM = 10000;
     public static double ARM_VM = 2500;
     public static double ARM_AM = 5000;
     boolean aPressed = false;
@@ -111,33 +115,55 @@ public class PidfTest extends LinearOpMode {
                 rbReleased = true;
             }
             time = clock.seconds();
-            if (aPressed && time > robot.restTime()) {
-                robot.setLiftPos(time, 2000, 0, wristNeutral);
-            } else if (bPressed && time > robot.restTime()) {
-                robot.setLiftPos(time, 2000, -650, wristNeutral);
-            } else if (yPressed && time > robot.restTime()) {
-                robot.setLiftPos(time, 0, -650, wristNeutral);
-            } else if (xPressed && time > robot.restTime()) {
-                robot.setLiftPos(time, 0, 0, wristNeutral);
+            if (aPressed) {
+                liftSetPoint = 0;
+                armSetPoint = armDownFront;
+            } else if (bPressed) {
+                liftSetPoint = liftHigh;
+                armSetPoint = armDownFront;
+            } else if (yPressed) {
+                liftSetPoint = liftHigh;
+                armSetPoint = armDownBack;
+            } else if (xPressed) {
+                liftSetPoint = 0;
+                armSetPoint = armDownBack;
             }
-            /*
+            if ((aPressed || bPressed || xPressed || yPressed) && time > liftProfile.getTf() && time > armProfile.getTf()) {
+                t1 = liftProfile.extendTrapezoidal(LIFT_VM, LIFT_AM, time, liftSetPoint, 0).getTf() - time;
+                t2 = armProfile.extendTrapezoidal(ARM_VM, ARM_AM, time, armSetPoint, 0).getTf() - time;
+                if (t1 == 0 && t2 == 0) {
+                    f1 = 0;
+                    f2 = 0;
+                } if (t1 == 0) {
+                    f1 = 0;
+                    f2 = 1;
+                } else if (t2 == 0) {
+                    f1 = 1;
+                    f2 = 0;
+                } else {
+                    f1 = 1 / (t2 * armMaxPower / t1 + liftMaxPower);
+                    f2 = 1 / (t1 * liftMaxPower / t2 + armMaxPower);
+                }
+                liftProfile = liftProfile.extendTrapezoidal(LIFT_VM * f1, LIFT_AM * f1 * f1, time, liftSetPoint, 0);
+                armProfile = armProfile.extendTrapezoidal(ARM_VM * f2, ARM_AM * f2 * f2, time, armSetPoint, 0);
+                telemetry.addData("Lift Time:", liftProfile.getTf() - time);
+                telemetry.addData("Arm Time:", armProfile.getTf() - time);
+            }
             liftPid.setConstants(LIFT_KP, LIFT_KI, LIFT_KD);
             armPid.setConstants(ARM_KP, ARM_KI, ARM_KD);
             liftPid.set(liftProfile.getX(time));
             liftPid.update(time, robot.liftL.getCurrentPosition() + robot.liftR.getCurrentPosition(), liftProfile.getV(time), liftProfile.getA(time));
             armPid.set(armProfile.getX(time));
             armPid.update(time, robot.liftL.getCurrentPosition() - robot.liftR.getCurrentPosition(), armProfile.getV(time), armProfile.getA(time));
-            double liftF = liftPid.get() + LIFT_KV * liftProfile.getV(time) + LIFT_KA * liftProfile.getA(time);
+            double liftF = liftPid.get() + 0.1 + 0.00005 * liftProfile.getX(time) + LIFT_KV * liftProfile.getV(time) + LIFT_KA * liftProfile.getA(time);
             double armF = armPid.get() + ARM_KV * armProfile.getV(time) + LIFT_KA * armProfile.getA(time);
             robot.liftL.setPower(liftF + armF);
             robot.liftR.setPower(liftF - armF);
-            */
-            //telemetry.addData("Left Power", liftF + armF);
-            //telemetry.addData("Right Power", liftF - armF);
-            robot.update(time);
-            telemetry.addData("Lift Set Point", robot.liftProfile.getX(time));
+            telemetry.addData("Left Power", liftF + armF);
+            telemetry.addData("Right Power", liftF - armF);
+            telemetry.addData("Lift Set Point", liftProfile.getX(time));
             telemetry.addData("Lift Position", robot.liftL.getCurrentPosition() + robot.liftR.getCurrentPosition());
-            telemetry.addData("Arm Set Point", robot.armProfile.getX(time));
+            telemetry.addData("Arm Set Point", armProfile.getX(time));
             telemetry.addData("Arm Position", robot.liftL.getCurrentPosition() - robot.liftR.getCurrentPosition());
             telemetry.update();
         }
