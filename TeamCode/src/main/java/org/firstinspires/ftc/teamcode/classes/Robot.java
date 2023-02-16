@@ -97,8 +97,8 @@ public class Robot {
             f1 = 1;
             f2 = 0;
         } else {
-            f1 = 1 / (t2 * armMaxPower / t1 + liftMaxPower);
-            f2 = 1 / (t1 * liftMaxPower / t2 + armMaxPower);
+            f1 = max(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
+            f2 = max(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
         }
         liftProfile = liftProfile.extendTrapezoidal(liftVm * f1, liftAm * f1 * f1, time, liftX, 0);
         armProfile = armProfile.extendTrapezoidal(armVm * f2, armAm * f2 * f2, time, armX, 0);

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 import static org.firstinspires.ftc.teamcode.classes.ValueStorage.*;
+import static java.lang.Math.*;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -141,8 +142,8 @@ public class PidfTest extends LinearOpMode {
                     f1 = 1;
                     f2 = 0;
                 } else {
-                    f1 = 1 / (t2 * armMaxPower / t1 + liftMaxPower);
-                    f2 = 1 / (t1 * liftMaxPower / t2 + armMaxPower);
+                    f1 = max(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
+                    f2 = max(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
                 }
                 liftProfile = liftProfile.extendTrapezoidal(LIFT_VM * f1, LIFT_AM * f1 * f1, time, liftSetPoint, 0);
                 armProfile = armProfile.extendTrapezoidal(ARM_VM * f2, ARM_AM * f2 * f2, time, armSetPoint, 0);
