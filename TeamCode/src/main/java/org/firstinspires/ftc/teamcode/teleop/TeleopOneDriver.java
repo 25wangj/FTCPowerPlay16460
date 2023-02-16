@@ -20,7 +20,6 @@ public class TeleopOneDriver extends LinearOpMode {
     double moveMagnitude;
     double turn;
     double time;
-    double lastTime = 0;
     double lastLiftX = liftHigh;
     double lastArmX = armDropFront;
     double lastWristX = wristNeutral;
@@ -255,7 +254,6 @@ public class TeleopOneDriver extends LinearOpMode {
                     moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)), -1, 1) - turn,
                     moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)),     -1, 1) + turn,
                     moveMagnitude * clip(sin(PI / 4 - moveAngle) / abs(cos(PI / 4 - moveAngle)), -1, 1) - turn);
-            lastTime = time;
         }
     }
 }
