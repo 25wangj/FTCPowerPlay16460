@@ -47,8 +47,7 @@ public class TeleopOneDriver extends LinearOpMode {
         robot.startGyro(this);
         robot.setLiftPos(clock.seconds(), liftGrab, armDownBack, wristNeutral);
         while (!isStarted() && !isStopRequested()) {
-            time = clock.seconds();
-            robot.update(time);
+            robot.update(clock.seconds());
         }
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.a) {
