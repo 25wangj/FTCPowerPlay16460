@@ -8,11 +8,11 @@ public class ValueStorage {
     public static double wristVm = 0.01;
     public static double wristAm = 0.01;
     public static double liftKp = 0.01;
-    public static double liftKi = 0;
+    public static double liftKi = 0.01;
     public static double liftKd = 0.0002;
     public static double armKp = 0.02;
-    public static double armKi = 0;
-    public static double armKd = 0.0003;
+    public static double armKi = 0.02;
+    public static double armKd = 0.0002;
     public static double liftMaxPower = 1;
     public static double armMaxPower = 0.5;
     public static double liftKf(double x, double v, double a) {
@@ -27,17 +27,20 @@ public class ValueStorage {
     public static double liftLow = 600;
     public static double liftMed = 1200;
     public static double liftHigh = 1800;
-    public static double liftGround = 150;
-    public static double armDownBack = -650;
+    public static double liftGround = 70;
     public static double armDownFront = 0;
-    public static double armDropBack = -550;
+    public static double armDownBack = -650;
     public static double armDropFront = -100;
+    public static double armDropBack = -550;
+    public static double armGroundFront = -30;
+    public static double armGroundBack = -620;
     public static double armWait = -325;
     public static double wristNeutral = 0;
-    public static double wristDropBack = 0;
     public static double wristDropFront = 0;
-    public static double grabAdjustIncrement = 90;
-    public static double grabAdjustMax = 630;
+    public static double wristDropBack = 0;
+    public static double grabAdjustIncrement = 80;
+    public static double grabAdjustMax = 320;
+    public static double grabHeight = 300;
     public static int signalMinCount = 10;
     public static Pose2d lastPose = new Pose2d(0, 0, 0);
 }

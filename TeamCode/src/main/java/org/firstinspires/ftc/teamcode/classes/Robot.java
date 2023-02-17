@@ -25,8 +25,8 @@ public class Robot {
     public DcMotorEx liftR;
     public Servo claw;
     public Servo wrist;
+    private double heading = 0;
     private final Object gyroLock = new Object();
-    private double heading;
     @GuardedBy("gyroLock")
     public IMU gyro;
     PidfController liftPidf = new PidfController(liftKp, liftKi, liftKd) {
@@ -88,10 +88,10 @@ public class Robot {
         double f1 = 0;
         double f2 = 0;
         if (t1 != 0) {
-            f1 = max(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
+            f1 = min(1, 1 / (t2 * armMaxPower / t1 + liftMaxPower));
         }
         if (t2 != 0) {
-            f2 = max(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
+            f2 = min(1, 1 / (t1 * liftMaxPower / t2 + armMaxPower));
         }
         liftProfile = liftProfile.extendTrapezoidal(liftVm * f1, liftAm * f1 * f1, time, liftX, 0);
         armProfile = armProfile.extendTrapezoidal(armVm * f2, armAm * f2 * f2, time, armX, 0);
@@ -100,8 +100,10 @@ public class Robot {
     public void update(double time) {
         liftPidf.set(liftProfile.getX(time));
         armPidf.set(armProfile.getX(time));
-        liftPidf.update(time, liftL.getCurrentPosition() + liftR.getCurrentPosition(), liftProfile.getV(time), liftProfile.getA(time));
-        armPidf.update(time,liftL.getCurrentPosition() - liftR.getCurrentPosition(), armProfile.getV(time), armProfile.getA(time));
+        double leftX = liftL.getCurrentPosition();
+        double rightX = liftR.getCurrentPosition();
+        liftPidf.update(time, leftX + rightX, liftProfile.getV(time), liftProfile.getA(time));
+        armPidf.update(time,leftX - rightX, armProfile.getV(time), armProfile.getA(time));
         liftL.setPower(liftPidf.get() + armPidf.get());
         liftR.setPower(liftPidf.get() - armPidf.get());
         wrist.setPosition(wristProfile.getX(time));

@@ -15,7 +15,7 @@ public abstract class AbstractAutonomous extends LinearOpMode {
     int caseDetected = 1;
     int caseDetectionLength = 0;
     ElapsedTime clock = new ElapsedTime();
-    double time;
+    double time = 0;
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -31,7 +31,6 @@ public abstract class AbstractAutonomous extends LinearOpMode {
         robot.setLiftPos(clock.seconds() + 1, 0, armDropFront, wristDropFront);
         robot.claw.setPosition(clawClosed);
         while (!isStarted() && !isStopRequested()) {
-            time = clock.seconds();
             /*
             if (detector.getCaseDetected() == caseDetected) {
                 caseDetectionLength++;
@@ -43,7 +42,7 @@ public abstract class AbstractAutonomous extends LinearOpMode {
                 runCase = caseDetected;
             }
             */
-            robot.update(time);
+            robot.update(clock.seconds());
             telemetry.addData("Case Detected", caseDetected);
             telemetry.addData("Case to Run", runCase);
             telemetry.update();

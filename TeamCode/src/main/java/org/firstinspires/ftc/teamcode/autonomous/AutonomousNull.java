@@ -9,7 +9,7 @@ public class AutonomousNull extends AbstractAutonomous {
     public void initialize() {}
     @Override
     public void run() {
-        robot.setLiftPos(time, 0, armWait, wristNeutral);
+        robot.setLiftPos(clock.seconds(), 0, armWait, wristNeutral);
         while (time < robot.restTime()) {
             time = clock.seconds();
             robot.update(time);

@@ -20,23 +20,20 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
         traj1 = robot.drive.trajectorySequenceBuilder(initPose())
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
-                .splineTo(new Vector2d(-34, 45), -PI / 2)
+                .splineTo(new Vector2d(-35, 45), -PI / 2)
                 .splineTo(dropPose.vec(), dropPose.getHeading())
-                .waitSeconds(0.25)
-                .resetVelConstraint()
-                .resetAccelConstraint()
                 .addTemporalMarker(1, -2, () -> {
                     robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);
                 })
-                .addTemporalMarker(1, -0.25, () -> {
-                    robot.claw.setPosition(clawOpen);
-                })
                 .addTemporalMarker(1, 0, () -> {
+                    robot.claw.setPosition(clawOpen);
                     robot.drive.followTrajectorySequenceAsync(traj2[runCase - 1]);
                 })
                 .build();
         traj2 = new TrajectorySequence[] {
                 robot.drive.trajectorySequenceBuilder(dropPose)
+                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
                         .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
                         .lineTo(parkPose[0].vec())
@@ -46,6 +43,8 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         })
                         .build(),
                 robot.drive.trajectorySequenceBuilder(dropPose)
+                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
                         .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
                         .addTemporalMarker(0, 0, () -> {
@@ -54,6 +53,8 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         })
                         .build(),
                 robot.drive.trajectorySequenceBuilder(dropPose)
+                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
                         .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
                         .lineTo(parkPose[2].vec())
