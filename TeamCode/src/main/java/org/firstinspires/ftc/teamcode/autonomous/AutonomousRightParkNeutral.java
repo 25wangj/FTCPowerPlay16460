@@ -14,15 +14,16 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(-11, 34, -PI / 2), new Pose2d(-35, 34, -PI / 2), new Pose2d(-59, 34, -PI / 2)};
     TrajectorySequence traj1;
     TrajectorySequence[] traj2;
-    boolean readyToEnd;
+    boolean readyToEnd = false;
+    boolean parkDone = false;
     @Override
     public void initialize() {
         traj1 = robot.drive.trajectorySequenceBuilder(initPose())
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
-                .splineTo(new Vector2d(-35, 45), -PI / 2)
+                .splineTo(new Vector2d(-35, 35), -PI / 2)
                 .splineTo(dropPose.vec(), dropPose.getHeading())
-                .addTemporalMarker(1, -2, () -> {
+                .addTemporalMarker(1, -1.5, () -> {
                     robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);
                 })
                 .addTemporalMarker(1, 0, () -> {
@@ -41,6 +42,9 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
                         })
+                        .addTemporalMarker(1, 0, () -> {
+                            parkDone = true;
+                        })
                         .build(),
                 robot.drive.trajectorySequenceBuilder(dropPose)
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -50,6 +54,9 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
+                        })
+                        .addTemporalMarker(1, 0, () -> {
+                            parkDone = true;
                         })
                         .build(),
                 robot.drive.trajectorySequenceBuilder(dropPose)
@@ -62,12 +69,15 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
                         })
+                        .addTemporalMarker(1, 0, () -> {
+                            parkDone = true;
+                        })
                         .build()};
     }
     @Override
     public void run() {
         robot.drive.followTrajectorySequenceAsync(traj1);
-        while(opModeIsActive() && !isStopRequested() && (!readyToEnd || time < robot.restTime())) {
+        while(opModeIsActive() && !isStopRequested() && (!parkDone || (readyToEnd && time < robot.restTime()))) {
             time = clock.seconds();
             robot.drive.update();
             robot.update(time);

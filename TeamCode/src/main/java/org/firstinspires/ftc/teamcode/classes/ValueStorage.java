@@ -8,7 +8,7 @@ public class ValueStorage {
     public static double wristVm = 0.01;
     public static double wristAm = 0.01;
     public static double liftKp = 0.01;
-    public static double liftKi = 0.01;
+    public static double liftKi = 0.02;
     public static double liftKd = 0.0002;
     public static double armKp = 0.02;
     public static double armKi = 0.02;
@@ -26,7 +26,7 @@ public class ValueStorage {
     public static double liftGrab = 150;
     public static double liftLow = 600;
     public static double liftMed = 1200;
-    public static double liftHigh = 1800;
+    public static double liftHigh = 1750;
     public static double liftGround = 70;
     public static double armDownFront = 0;
     public static double armDownBack = -650;
