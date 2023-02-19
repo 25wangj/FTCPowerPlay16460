@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-@Autonomous(name = "RightParkNeutral")
-public class AutonomousRightParkNeutral extends AbstractAutonomous {
-    Pose2d dropPose = new Pose2d(-27, 6, -1);
+@Autonomous(name = "RightParkHigh")
+public class AutonomousRightParkHigh extends AbstractAutonomous {
+    Pose2d dropPose = new Pose2d(-27, 5, -1);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(-11, 34, -PI / 2), new Pose2d(-35, 34, -PI / 2), new Pose2d(-59, 34, -PI / 2)};
     TrajectorySequence traj1;
     TrajectorySequence[] traj2;
@@ -36,7 +36,7 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
-                        .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
+                        .splineTo(parkPose[1].vec(), parkPose[1].getHeading() + PI)
                         .lineTo(parkPose[0].vec())
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
@@ -50,7 +50,7 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
-                        .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
+                        .splineTo(parkPose[1].vec(), parkPose[1].getHeading() + PI)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
@@ -63,7 +63,7 @@ public class AutonomousRightParkNeutral extends AbstractAutonomous {
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(30))
                         .setReversed(true)
-                        .splineTo(parkPose[1].vec(), parkPose[2].getHeading() + PI)
+                        .splineTo(parkPose[1].vec(), parkPose[1].getHeading() + PI)
                         .lineTo(parkPose[2].vec())
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);

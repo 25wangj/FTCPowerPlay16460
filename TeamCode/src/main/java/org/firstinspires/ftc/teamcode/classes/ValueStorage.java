@@ -25,7 +25,7 @@ public class ValueStorage {
     public static double clawOpen = 0.16;
     public static double liftGrab = 150;
     public static double liftLow = 600;
-    public static double liftMed = 1200;
+    public static double liftMid = 1100;
     public static double liftHigh = 1750;
     public static double liftGround = 70;
     public static double armDownFront = 0;

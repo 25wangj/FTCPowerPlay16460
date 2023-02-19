@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-@Autonomous(name = "RightStackNeutral")
-public class AutonomousRightStackNeutral extends AbstractAutonomous {
-    Pose2d dropPose1 = new Pose2d(-27, 6, -1);
-    Pose2d dropPose2 = new Pose2d(-29, 3, -0.6);
+@Autonomous(name = "RightStackHigh")
+public class AutonomousRightStackHigh extends AbstractAutonomous {
+    Pose2d dropPose1 = new Pose2d(-27, 5, -1);
+    Pose2d dropPose2 = new Pose2d(-28, 3, -0.6);
     Pose2d stackPose = new Pose2d(-65, 13, 0);
-    Pose2d[] parkPose = new Pose2d[] {new Pose2d(-11, 12, 0), new Pose2d(-35, 12, 0), new Pose2d(-59, 12, 0)};
+    Pose2d[] parkPose = new Pose2d[] {new Pose2d(-11, 13, 0), new Pose2d(-35, 13, 0), new Pose2d(-59, 13, 0)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
     TrajectorySequence traj3;
@@ -110,8 +110,8 @@ public class AutonomousRightStackNeutral extends AbstractAutonomous {
                         .setReversed(true)
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
-                        .lineToSplineHeading(new Pose2d(-24, 12))
-                        .lineTo(parkPose[0].vec())
+                        .lineTo(new Vector2d(-35, 6))
+                        .splineToSplineHeading(parkPose[0], 0)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
@@ -136,7 +136,7 @@ public class AutonomousRightStackNeutral extends AbstractAutonomous {
                         .setReversed(true)
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
-                        .splineTo(parkPose[2].vec(), parkPose[2].getHeading() + PI)
+                        .splineTo(parkPose[2].vec(), PI)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;

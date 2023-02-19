@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.classes.Robot;
 import org.firstinspires.ftc.teamcode.classes.ValueStorage;
-@TeleOp(name = "TeleopTwoDriver")
+@TeleOp(name = "TwoDriver")
 public class TeleopTwoDriver extends LinearOpMode {
     Robot robot = new Robot();
     int state = 0;
@@ -149,7 +149,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                             robot.setLiftPos(max(robot.restTime(), time), liftLow, armDropBack, wristDropBack);
                             state = 2;
                         } else if (bPressed) {
-                            robot.setLiftPos(max(robot.restTime(), time), liftMed, armDropBack, wristDropBack);
+                            robot.setLiftPos(max(robot.restTime(), time), liftMid, armDropBack, wristDropBack);
                             state = 2;
                         } else if (yPressed) {
                             robot.setLiftPos(max(robot.restTime(), time), liftHigh, armDropBack, wristDropBack);
@@ -163,7 +163,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                             robot.setLiftPos(max(robot.restTime(), time), liftLow, armDropFront, wristDropFront);
                             state = 2;
                         } else if (bPressed) {
-                            robot.setLiftPos(max(robot.restTime(), time), liftMed, armDropFront, wristDropFront);
+                            robot.setLiftPos(max(robot.restTime(), time), liftMid, armDropFront, wristDropFront);
                             state = 2;
                         } else if (yPressed) {
                             robot.setLiftPos(max(robot.restTime(), time), liftHigh, armDropFront, wristDropFront);
@@ -189,7 +189,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                         robot.setLiftPos(time, liftLow, armDropBack, wristDropBack);
                         waiting = false;
                     } else if (bPressed) {
-                        robot.setLiftPos(time, liftMed, armDropBack, wristDropBack);
+                        robot.setLiftPos(time, liftMid, armDropBack, wristDropBack);
                         waiting = false;
                     } else if (yPressed) {
                         robot.setLiftPos(time, liftHigh, armDropBack, wristDropBack);
@@ -203,7 +203,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                         robot.setLiftPos(time, liftLow, armDropFront, wristDropFront);
                         waiting = false;
                     } else if (bPressed) {
-                        robot.setLiftPos(time, liftMed, armDropFront, wristDropFront);
+                        robot.setLiftPos(time, liftMid, armDropFront, wristDropFront);
                         waiting = false;
                     } else if (yPressed) {
                         robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);
