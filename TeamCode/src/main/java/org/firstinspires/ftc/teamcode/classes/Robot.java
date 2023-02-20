@@ -62,8 +62,6 @@ public class Robot {
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftProfile = new DelayProfile(0, liftX, 0,0);
         armProfile = new DelayProfile(0, armX, 0, 0);
         wristProfile = new DelayProfile(0, wristX, 0, 0);

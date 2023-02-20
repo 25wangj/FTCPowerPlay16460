@@ -24,7 +24,6 @@ public class TeleopTwoDriver extends LinearOpMode {
     double grabAdjust = 0;
     boolean closeClaw = false;
     boolean grabbingBack = true;
-    boolean readyToLift = true;
     boolean waiting = false;
     boolean aPressed = false;
     boolean bPressed = false;

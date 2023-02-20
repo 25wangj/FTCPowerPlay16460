@@ -35,7 +35,7 @@ public class TrapezoidalProfile extends MotionProfile {
     public double getX(double t) {
         if (t < ti) {
             return xi + vi * (t - ti);
-        } if (t < tf) {
+        } else if (t < tf) {
             if (xf > xi && flat) {
                 if (t < ti + (vm - vi) / am) {
                     return xi + vi * (t - ti) + am * pow(t - ti, 2) / 2;
