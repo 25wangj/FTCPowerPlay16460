@@ -216,6 +216,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                 if (gamepad2.right_trigger > 0.2 && rbPressed) {
                     robot.setLiftPos(time, liftGrab, armDownFront, wristNeutral);
                     grabbingBack = false;
+                    grabAdjust = 0;
                     state = 0;
                 } else if (rbPressed) {
                     robot.setLiftPos(time, liftGrab, armDownBack, wristNeutral);
