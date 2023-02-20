@@ -22,7 +22,6 @@ public abstract class AbstractAutonomous extends LinearOpMode {
         robot.init(hardwareMap, 0, armDownFront, wristNeutral);
         //detector = new SignalDetector(hardwareMap);
         //detector.init();
-        robot.drive.setPoseEstimate(initPose());
         initialize();
         robot.liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -48,6 +47,7 @@ public abstract class AbstractAutonomous extends LinearOpMode {
             telemetry.update();
         }
         //detector.end();
+        robot.drive.setPoseEstimate(initPose());
         run();
         lastPose = robot.drive.getPoseEstimate();
     }

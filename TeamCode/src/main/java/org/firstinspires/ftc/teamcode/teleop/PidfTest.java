@@ -18,10 +18,10 @@ public class PidfTest extends LinearOpMode {
     double time = 0;
     double liftSetPoint = 0;
     double armSetPoint = armDownFront;
-    double t1 = 0;
-    double t2 = 0;
-    double f1 = 0;
-    double f2 = 0;
+    double t1;
+    double t2;
+    double f1;
+    double f2;
     public static double LIFT_MP = 1;
     public static double ARM_MP = 0.5;
     public static double LIFT_KGS = 0.1;
