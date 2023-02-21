@@ -227,14 +227,14 @@ public class TeleopOneDriver extends LinearOpMode {
             }
             if (gamepad1.dpad_up && time > robot.restTime() && !closeClaw) {
                 grabAdjust = min(grabAdjust + grabAdjustIncrement, grabAdjustMax);
-                if (state == 0 && time > robot.restTime()) {
+                if (state == 0) {
                     robot.setLiftPos(time, liftGrab + grabAdjust, robot.armProfile.getX(time), wristNeutral);
                 } else if (state == 1) {
                     robot.setLiftPos(time, grabHeight + grabAdjust, robot.armProfile.getX(time), wristNeutral);
                 }
             } else if (gamepad1.dpad_down && time > robot.restTime() && !closeClaw) {
                 grabAdjust = max(grabAdjust - grabAdjustIncrement, 0);
-                if (state == 0 && time > robot.restTime()) {
+                if (state == 0) {
                     robot.setLiftPos(time, liftGrab + grabAdjust, robot.armProfile.getX(time), wristNeutral);
                 } else if (state == 1) {
                     robot.setLiftPos(time, grabHeight + grabAdjust, robot.armProfile.getX(time), wristNeutral);
