@@ -21,11 +21,11 @@ public class TrapezoidalProfile extends MotionProfile {
             if (xf > xi && flat) {
                 this.tf = ti + (xf - xi) / vm + (pow(vm - vi, 2) + pow(vm - vf, 2)) / (2 * this.am * vm);
             } else if (xf > xi) {
-                this.tf = ti + (2 * sqrt(am * (xf - xi) + (pow(vi, 2) + pow(vf, 2)) / 2) - vi - vf) / this.am;
+                this.tf = ti + (2 * sqrt(this.am * (xf - xi) + (pow(vi, 2) + pow(vf, 2)) / 2) - vi - vf) / this.am;
             } else if (flat) {
                 this.tf = ti + (xi - xf) / vm + (pow(vm + vi, 2) + pow(vm + vf, 2)) / (2 * this.am * vm);
             } else {
-                this.tf = ti + (2 * sqrt(am * (xi - xf) + (pow(vi, 2) + pow(vf, 2)) / 2) + vi + vf) / this.am;
+                this.tf = ti + (2 * sqrt(this.am * (xi - xf) + (pow(vi, 2) + pow(vf, 2)) / 2) + vi + vf) / this.am;
             }
         } else {
             this.tf = 0;
