@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.classes.PidfController;
 import org.firstinspires.ftc.teamcode.classes.Robot;
@@ -48,10 +47,6 @@ public class PidfTest extends LinearOpMode {
     boolean xReleased = false;
     boolean yPressed = false;
     boolean yReleased = false;
-    boolean lbPressed = false;
-    boolean lbReleased = false;
-    boolean rbPressed = false;
-    boolean rbReleased = false;
     ElapsedTime clock = new ElapsedTime();
     PidfController liftPid = new PidfController(LIFT_KP, LIFT_KI, LIFT_KD) {
         @Override
@@ -71,10 +66,7 @@ public class PidfTest extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap, 0, armDownFront, wristNeutral);
-        robot.liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.resetLift();
         waitForStart();
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.a) {
@@ -104,20 +96,6 @@ public class PidfTest extends LinearOpMode {
             } else {
                 yPressed = false;
                 yReleased = true;
-            }
-            if (gamepad1.left_bumper) {
-                lbPressed = lbReleased;
-                lbReleased = false;
-            } else {
-                lbPressed = false;
-                lbReleased = true;
-            }
-            if (gamepad1.right_bumper) {
-                rbPressed = rbReleased;
-                rbReleased = false;
-            } else {
-                rbPressed = false;
-                rbReleased = true;
             }
             time = clock.seconds();
             if (aPressed) {

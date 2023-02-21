@@ -104,13 +104,19 @@ public class Robot {
         armPidf.update(time,leftX - rightX, armProfile.getV(time), armProfile.getA(time));
         liftL.setPower(liftPidf.get() + armPidf.get());
         liftR.setPower(liftPidf.get() - armPidf.get());
-        wrist.setPosition(wristProfile.getX(time));
+        //wrist.setPosition(wristProfile.getX(time));
     }
     public void setDrivePowers(double flPower, double frPower, double blPower, double brPower) {
         fl.setPower(flPower);
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
+    }
+    public void resetLift() {
+        liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void startGyro(LinearOpMode opMode) {
         Thread gyroThread = new Thread(() -> {

@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.classes.Robot;
 import org.firstinspires.ftc.teamcode.classes.SignalDetector;
@@ -23,11 +22,8 @@ public abstract class AbstractAutonomous extends LinearOpMode {
         //detector = new SignalDetector(hardwareMap);
         //detector.init();
         initialize();
-        robot.liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.setLiftPos(clock.seconds() + 1, 0, armDropFront, wristDropFront);
+        robot.resetLift();
+        robot.setLiftPos(clock.seconds() + 0.5, 0, armDropFront, wristDropFront);
         robot.claw.setPosition(clawClosed);
         while (!isStarted() && !isStopRequested()) {
             /*
