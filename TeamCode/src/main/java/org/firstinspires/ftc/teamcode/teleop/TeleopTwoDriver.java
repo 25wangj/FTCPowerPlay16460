@@ -91,7 +91,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                 rbReleased = true;
             }
             if (gamepad1.ps) {
-                initialHeading = -robot.heading();
+                initialHeading = -robot.getHeading();
             }
             time = clock.seconds();
             if (state == 0 && time > robot.restTime()) {
@@ -241,7 +241,7 @@ public class TeleopTwoDriver extends LinearOpMode {
                 }
             }
             robot.update(time);
-            moveAngle = atan2(-gamepad1.left_stick_x, -gamepad1.left_stick_y) - robot.heading() - initialHeading;
+            moveAngle = atan2(-gamepad1.left_stick_x, -gamepad1.left_stick_y) - robot.getHeading() - initialHeading;
             moveMagnitude = gamepad1.left_stick_x * gamepad1.left_stick_x + gamepad1.left_stick_y * gamepad1.left_stick_y;
             turn = gamepad1.right_stick_x * abs(gamepad1.right_stick_x);
             if (moveMagnitude < 0.02) {

@@ -75,9 +75,10 @@ public class Robot {
         claw.setPosition(clawOpen);
     }
     public double restTime() {
-        return max(max(liftProfile.getTf(), armProfile.getTf()), wristProfile.getTf());
+        //return max(max(liftProfile.getTf(), armProfile.getTf()), wristProfile.getTf());
+        return max(liftProfile.getTf(), armProfile.getTf());
     }
-    public double heading() {
+    public double getHeading() {
         return heading;
     }
     public void setLiftPos(double time, double liftX, double armX, double wristPos) {
