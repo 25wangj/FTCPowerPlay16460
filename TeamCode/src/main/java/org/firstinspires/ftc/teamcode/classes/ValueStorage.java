@@ -22,16 +22,16 @@ public class ValueStorage {
         return 0.0003 * v;
     }
     public static double clawClosed = 0.50;
-    public static double clawOpen = 0.16;
+    public static double clawOpen = 0.10;
     public static double liftGrab = 150;
-    public static double liftLow = 600;
-    public static double liftMid = 1100;
-    public static double liftHigh = 1750;
+    public static double liftLow = 650;
+    public static double liftMid = 1150;
+    public static double liftHigh = 1800;
     public static double liftGround = 70;
     public static double armDownFront = 0;
     public static double armDownBack = -650;
-    public static double armDropFront = -100;
-    public static double armDropBack = -550;
+    public static double armDropFront = -80;
+    public static double armDropBack = -570;
     public static double armGroundFront = -30;
     public static double armGroundBack = -620;
     public static double armWait = -325;

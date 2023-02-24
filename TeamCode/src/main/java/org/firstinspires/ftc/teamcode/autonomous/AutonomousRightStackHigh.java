@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "RightStackHigh")
 public class AutonomousRightStackHigh extends AbstractAutonomous {
-    Pose2d dropPose1 = new Pose2d(-27, 5, -1);
+    Pose2d dropPose1 = new Pose2d(-25, 5, -1);
     Pose2d dropPose2 = new Pose2d(-28, 3, -0.6);
-    Pose2d stackPose = new Pose2d(-65, 13, 0);
-    Pose2d[] parkPose = new Pose2d[] {new Pose2d(-11, 13, 0), new Pose2d(-35, 13, 0), new Pose2d(-59, 13, 0)};
+    Pose2d stackPose = new Pose2d(-66, 13, 0);
+    Pose2d[] parkPose = new Pose2d[] {new Pose2d(-12, 13, 0), new Pose2d(-36, 13, 0), new Pose2d(-60, 13, 0)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
     TrajectorySequence traj3;
@@ -30,7 +30,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                 .splineTo(new Vector2d(-35, 35), -PI / 2)
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose1.vec(), dropPose1.getHeading())
-                .addTemporalMarker(1, -1.5, () -> {
+                .addTemporalMarker(1, -1.75, () -> {
                     robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);
                 })
                 .addTemporalMarker(1,   0, () -> {
@@ -107,11 +107,8 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                 .build();
         traj4 = new TrajectorySequence[] {
                 robot.drive.trajectorySequenceBuilder(dropPose2)
-                        .setReversed(true)
-                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
-                        .lineTo(new Vector2d(-35, 6))
-                        .splineToSplineHeading(parkPose[0], 0)
+                        .lineToLinearHeading(parkPose[1])
+                        .lineTo(parkPose[0].vec())
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
                             readyToEnd = true;
@@ -149,7 +146,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
     @Override
     public void run() {
         robot.drive.followTrajectorySequenceAsync(traj1);
-        while(opModeIsActive() && !isStopRequested() && (!parkDone || (readyToEnd && time < robot.restTime()))) {
+        while(opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime()))) {
             time = clock.seconds();
             robot.drive.update();
             robot.update(time);
