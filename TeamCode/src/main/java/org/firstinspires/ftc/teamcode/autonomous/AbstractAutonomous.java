@@ -43,6 +43,7 @@ public abstract class AbstractAutonomous extends LinearOpMode {
         detector.end();
         robot.drive.setPoseEstimate(initPose());
         run();
+        robot.setDrivePowers(0, 0, 0, 0);
         lastPose = robot.drive.getPoseEstimate();
     }
     public abstract void initialize();

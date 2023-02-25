@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "LeftStackMid")
 public class AutonomousLeftStackMid extends AbstractAutonomous {
-    Pose2d dropPose = new Pose2d(29, 22, PI - 0.6);
-    Pose2d stackPose = new Pose2d(66, 13, PI);
+    Pose2d dropPose = new Pose2d(30, 24, PI - 0.6);
+    Pose2d stackPose = new Pose2d(67, 13, PI);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(60, 13, PI), new Pose2d(36, 13, PI), new Pose2d(12, 13, PI)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
@@ -40,7 +40,7 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(55, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .setReversed(true)
-                .splineTo(new Vector2d(55, 13), 0)
+                .splineTo(new Vector2d(57, 13), 0)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     robot.setLiftPos(time, stackOffsets[cycles], armDownBack, wristNeutral);
@@ -49,9 +49,9 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                     robot.claw.setPosition(clawClosed);
                     robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.75)
+                .waitSeconds(0.6)
                 .setReversed(false)
-                .lineTo(new Vector2d(55, 13))
+                .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
                 .splineTo(dropPose.vec(), dropPose.getHeading())
                 .addTemporalMarker(1, -1.5,() -> {
@@ -73,8 +73,6 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
         traj3 = new TrajectorySequence[] {
                 robot.drive.trajectorySequenceBuilder(dropPose)
                         .setReversed(true)
-                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                         .splineTo(parkPose[0].vec(), 0)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);

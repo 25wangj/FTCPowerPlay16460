@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "LeftStackHigh")
 public class AutonomousLeftStackHigh extends AbstractAutonomous {
-    Pose2d dropPose1 = new Pose2d(25, 5, PI + 1);
-    Pose2d dropPose2 = new Pose2d(28, 3, PI + 0.6);
-    Pose2d stackPose = new Pose2d(66, 13, PI);
+    Pose2d dropPose1 = new Pose2d(27, 5, PI + 1);
+    Pose2d dropPose2 = new Pose2d(29, 3, PI + 0.6);
+    Pose2d stackPose = new Pose2d(67, 13, PI);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(60, 13, PI), new Pose2d(36, 13, PI), new Pose2d(12, 13, PI)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
@@ -42,7 +42,7 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(55, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .setTangent(0.6)
-                .splineToSplineHeading(new Pose2d(55, 13, 0), 0)
+                .splineToSplineHeading(new Pose2d(57, 13, PI), 0)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     robot.setLiftPos(time, stackOffsets[0], armDownBack, wristNeutral);
@@ -51,8 +51,8 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                     robot.claw.setPosition(clawClosed);
                     robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.75)
-                .lineTo(new Vector2d(55, 13))
+                .waitSeconds(0.6)
+                .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose2.vec(), dropPose2.getHeading())
                 .addTemporalMarker(0, 0, () -> {
@@ -75,7 +75,7 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(55, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .setReversed(true)
-                .splineTo(new Vector2d(55, 13), PI)
+                .splineTo(new Vector2d(57, 13), 0)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     robot.setLiftPos(time, stackOffsets[cycles], armDownBack, wristNeutral);
@@ -84,9 +84,9 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                     robot.claw.setPosition(clawClosed);
                     robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.75)
+                .waitSeconds(0.6)
                 .setReversed(false)
-                .lineTo(new Vector2d(55, 13))
+                .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose2.vec(), dropPose2.getHeading())
                 .addTemporalMarker(1, -2,() -> {
@@ -108,8 +108,6 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
         traj4 = new TrajectorySequence[] {
                 robot.drive.trajectorySequenceBuilder(dropPose2)
                         .setReversed(true)
-                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                         .splineTo(parkPose[0].vec(), 0)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);

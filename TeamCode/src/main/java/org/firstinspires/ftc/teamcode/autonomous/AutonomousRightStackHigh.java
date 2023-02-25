@@ -51,7 +51,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                     robot.claw.setPosition(clawClosed);
                     robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.75)
+                .waitSeconds(0.6)
                 .lineTo(new Vector2d(-55, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose2.vec(), dropPose2.getHeading())
@@ -84,7 +84,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                     robot.claw.setPosition(clawClosed);
                     robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.75)
+                .waitSeconds(0.6)
                 .setReversed(false)
                 .lineTo(new Vector2d(-55, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
@@ -131,8 +131,6 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                         .build(),
                 robot.drive.trajectorySequenceBuilder(dropPose2)
                         .setReversed(true)
-                        .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                         .splineTo(parkPose[2].vec(), PI)
                         .addTemporalMarker(0, 0, () -> {
                             robot.setLiftPos(time, 0, armWait, wristNeutral);
