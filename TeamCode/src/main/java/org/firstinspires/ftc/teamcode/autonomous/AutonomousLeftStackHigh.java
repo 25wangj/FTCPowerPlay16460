@@ -49,9 +49,9 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     robot.claw.setPosition(clawClosed);
-                    robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
+                    robot.setLiftPos(time + 0.25, grabHeight + stackOffsets[0], armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.6)
+                .waitSeconds(0.75)
                 .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                 .splineTo(dropPose2.vec(), dropPose2.getHeading())
@@ -82,9 +82,9 @@ public class AutonomousLeftStackHigh extends AbstractAutonomous {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     robot.claw.setPosition(clawClosed);
-                    robot.setLiftPos(time + 0.25, stackOffsets[0] + 300, armDownBack, wristNeutral);
+                    robot.setLiftPos(time + 0.25, grabHeight + stackOffsets[cycles], armDownBack, wristNeutral);
                 })
-                .waitSeconds(0.6)
+                .waitSeconds(0.75)
                 .setReversed(false)
                 .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))

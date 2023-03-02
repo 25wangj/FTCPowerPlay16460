@@ -3,6 +3,10 @@ import static java.lang.Math.*;
 import static org.firstinspires.ftc.teamcode.classes.ValueStorage.*;
 import androidx.annotation.GuardedBy;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
+import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.lynx.LynxNackException;
+import com.qualcomm.hardware.lynx.commands.core.LynxGetADCCommand;
+import com.qualcomm.hardware.lynx.commands.core.LynxGetADCResponse;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,6 +29,7 @@ public class Robot {
     public DcMotorEx liftR;
     public Servo claw;
     public Servo wrist;
+    public LynxModule chub;
     private double heading = 0;
     private final Object gyroLock = new Object();
     @GuardedBy("gyroLock")
@@ -55,6 +60,7 @@ public class Robot {
         wrist = hwMap.get(Servo.class, "wrist");
         claw = hwMap.get(Servo.class, "claw");
         gyro = hwMap.get(IMU.class, "gyro");
+        chub = hwMap.getAll(LynxModule.class).get(0);
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -78,6 +84,15 @@ public class Robot {
     public double restTime() {
         //return max(max(liftProfile.getTf(), armProfile.getTf()), wristProfile.getTf());
         return max(liftProfile.getTf(), armProfile.getTf());
+    }
+    public double servoCurrent() {
+        LynxGetADCCommand command = new LynxGetADCCommand(chub, LynxGetADCCommand.Channel.SERVO_CURRENT, LynxGetADCCommand.Mode.ENGINEERING);
+        try {
+            LynxGetADCResponse response = command.sendReceive();
+            return response.getValue();
+        } catch (InterruptedException|RuntimeException|LynxNackException e) {
+            return 0;
+        }
     }
     public double getHeading() {
         return heading;
