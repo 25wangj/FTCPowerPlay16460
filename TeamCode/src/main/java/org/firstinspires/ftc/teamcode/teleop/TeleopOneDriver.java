@@ -254,6 +254,8 @@ public class TeleopOneDriver extends LinearOpMode {
                     moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)), -1, 1) - turn,
                     moveMagnitude * clip(sin(PI / 4 + moveAngle) / abs(cos(PI / 4 + moveAngle)),     -1, 1) + turn,
                     moveMagnitude * clip(sin(PI / 4 - moveAngle) / abs(cos(PI / 4 - moveAngle)), -1, 1) - turn);
+            telemetry.addData("Current", robot.servoCurrent());
+            telemetry.update();
         }
     }
 }
