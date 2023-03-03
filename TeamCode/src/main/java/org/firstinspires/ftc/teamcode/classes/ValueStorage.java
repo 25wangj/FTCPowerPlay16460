@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.classes;
-import static java.lang.Math.*;
 import static com.qualcomm.robotcore.util.Range.*;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 public class ValueStorage {
@@ -7,8 +6,6 @@ public class ValueStorage {
     public static double liftAm = 20000;
     public static double armVm = 1500;
     public static double armAm = 15000;
-    public static double wristVm = 0.01;
-    public static double wristAm = 0.01;
     public static double liftKp = 0.01;
     public static double liftKi = 0.01;
     public static double liftKd = 0.0002;
@@ -37,9 +34,6 @@ public class ValueStorage {
     public static double armGroundFront = -40;
     public static double armGroundBack = -720;
     public static double armWait = -380;
-    public static double wristNeutral = 0;
-    public static double wristDropFront = 0;
-    public static double wristDropBack = 0;
     public static double grabAdjustIncrement = 100;
     public static double grabAdjustMax = 400;
     public static double grabHeight = 350;

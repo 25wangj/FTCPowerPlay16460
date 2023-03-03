@@ -32,7 +32,7 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                 .lineToSplineHeading(new Pose2d(-35, 18, 0.6))
                 .lineTo(dropPose.vec())
                 .addTemporalMarker(1, -1.5, () -> {
-                    robot.setLiftPos(time, liftMid, armDropFront, wristDropFront);
+                    robot.setLiftPos(time, liftMid, armDropFront);
                 })
                 .addTemporalMarker(1,   0, () -> {
                     robot.claw.setPosition(clawOpen);
@@ -46,13 +46,13 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                 .splineTo(new Vector2d(-55, 12), PI)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    robot.setLiftPos(time, stackOffsets[grabCycles], armDownBack, wristNeutral);
+                    robot.setLiftPos(time, stackOffsets[grabCycles], armDownBack);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     robot.claw.setPosition(clawClosed);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
-                    robot.setLiftPos(time, grabHeight + stackOffsets[grabCycles], armDownBack, wristNeutral);
+                    robot.setLiftPos(time, grabHeight + stackOffsets[grabCycles], armDownBack);
                 })
                 .waitSeconds(0.6)
                 .setReversed(false)
@@ -60,10 +60,10 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
                 .splineTo(dropPose.vec(), dropPose.getHeading())
                 .addTemporalMarker(1, -1.5,() -> {
-                    robot.setLiftPos(time, liftMid, armDropFront, wristDropFront);
+                    robot.setLiftPos(time, liftMid, armDropFront);
                 })
                 .addTemporalMarker(0, 0.25, () -> {
-                    robot.setLiftPos(time, liftGrab + stackOffsets[grabCycles], armDownBack, wristNeutral);
+                    robot.setLiftPos(time, liftGrab + stackOffsets[grabCycles], armDownBack);
                 })
                 .addTemporalMarker(1, 0, () -> {
                     robot.claw.setPosition(clawOpen);
@@ -84,7 +84,7 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                         .splineToSplineHeading(parkPose[1], -PI / 2)
                         .lineTo(parkPose[0].vec())
                         .addTemporalMarker(0, 0.25, () -> {
-                            robot.setLiftPos(time, 0, armWait, wristNeutral);
+                            robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
                         })
                         .addTemporalMarker(1, 0, () -> {
@@ -97,7 +97,7 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                         .back(8)
                         .splineToSplineHeading(parkPose[1], -PI / 2)
                         .addTemporalMarker(0, 0.25, () -> {
-                            robot.setLiftPos(time, 0, armWait, wristNeutral);
+                            robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
                         })
                         .addTemporalMarker(1, 0, () -> {
@@ -108,7 +108,7 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
                         .setReversed(true)
                         .splineTo(parkPose[2].vec(), PI)
                         .addTemporalMarker(0, 0.25, () -> {
-                            robot.setLiftPos(time, 0, armWait, wristNeutral);
+                            robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
                         })
                         .addTemporalMarker(1, 0, () -> {
@@ -119,7 +119,7 @@ public class AutonomousRightStackMid extends AbstractAutonomous {
     @Override
     public void run() {
         robot.drive.followTrajectorySequenceAsync(traj1);
-        while(opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime()))) {
+        while(opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime() + 0.25))) {
             time = clock.seconds();
             for (int i = servoCurrent.length - 1; i >= 0 ; i--) {
                 if (i == servoCurrent.length - 1) {
