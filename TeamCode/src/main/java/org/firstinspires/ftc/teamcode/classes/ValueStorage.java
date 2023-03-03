@@ -31,12 +31,12 @@ public class ValueStorage {
     public static double liftHigh = 2125;
     public static double liftGround = 80;
     public static double armDownFront = 0;
-    public static double armDownBack = -770;
+    public static double armDownBack = -760;
     public static double armDropFront = -100;
-    public static double armDropBack = -670;
+    public static double armDropBack = -660;
     public static double armGroundFront = -40;
-    public static double armGroundBack = -730;
-    public static double armWait = -385;
+    public static double armGroundBack = -720;
+    public static double armWait = -380;
     public static double wristNeutral = 0;
     public static double wristDropFront = 0;
     public static double wristDropBack = 0;
