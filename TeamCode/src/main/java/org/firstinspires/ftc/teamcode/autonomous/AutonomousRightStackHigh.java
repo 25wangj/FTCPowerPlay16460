@@ -63,7 +63,6 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                 .addTemporalMarker(0, 0.25, () -> {
                     robot.setLiftPos(time, liftGrab + stackOffsets[0], armDownBack, wristNeutral);
                 })
-
                 .addTemporalMarker(1, -1.5,() -> {
                     robot.setLiftPos(time, liftHigh, armDropFront, wristDropFront);
                 })

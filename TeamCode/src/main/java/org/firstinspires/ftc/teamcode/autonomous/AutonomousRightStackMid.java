@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import java.util.ArrayList;
 @Autonomous(name = "RightStackMid")
 public class AutonomousRightStackMid extends AbstractAutonomous {
     Pose2d dropPose = new Pose2d(-28, 22, 0.6);
