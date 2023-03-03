@@ -36,9 +36,9 @@ public class PidfTest extends LinearOpMode {
     public static double ARM_KI = 0.02;
     public static double ARM_KD = 0.0002;
     public static double LIFT_VM = 3000;
-    public static double LIFT_AM = 10000;
+    public static double LIFT_AM = 20000;
     public static double ARM_VM = 1500;
-    public static double ARM_AM = 10000;
+    public static double ARM_AM = 15000;
     boolean aPressed = false;
     boolean aReleased = true;
     boolean bPressed = false;

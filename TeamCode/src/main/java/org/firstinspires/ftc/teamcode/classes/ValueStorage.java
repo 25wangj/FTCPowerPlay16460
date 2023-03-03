@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.classes;
+import static java.lang.Math.*;
+import static com.qualcomm.robotcore.util.Range.*;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 public class ValueStorage {
     public static double liftVm = 3000;
@@ -38,9 +40,29 @@ public class ValueStorage {
     public static double wristNeutral = 0;
     public static double wristDropFront = 0;
     public static double wristDropBack = 0;
-    public static double grabAdjustIncrement = 95;
-    public static double grabAdjustMax = 380;
+    public static double grabAdjustIncrement = 100;
+    public static double grabAdjustMax = 400;
     public static double grabHeight = 350;
+    public static double liftAdjustIncrement = 15;
+    public static double liftAdjustMax = 2500;
+    public static double armAdjustFront(double liftX) {
+        if (liftX < (liftGround + liftLow) / 2) {
+            return armGroundFront;
+        } else if (liftX < liftLow) {
+            return scale(liftX, (liftGround + liftLow) / 2, liftLow, armGroundFront, armDropFront);
+        } else {
+            return armDropFront;
+        }
+    }
+    public static double armAdjustBack(double liftX) {
+        if (liftX < (liftGround + liftLow) / 2) {
+            return armGroundBack;
+        } else if (liftX < liftLow) {
+            return scale(liftX, (liftGround + liftLow) / 2, liftLow, armGroundBack, armDropBack);
+        } else {
+            return armDropBack;
+        }
+    }
     public static double currentThreshold = 500;
     public static int signalMinCount = 10;
     public static Pose2d lastPose = new Pose2d(0, 0, 0);
