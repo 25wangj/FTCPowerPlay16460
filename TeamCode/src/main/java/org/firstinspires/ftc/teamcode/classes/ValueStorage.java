@@ -22,10 +22,10 @@ public class ValueStorage {
         return 0.0003 * v;
     }
     public static double clawClosed = 0.55;
-    public static double clawOpen = 0.20;
+    public static double clawOpen = 0.22;
     public static double liftGrab = 180;
     public static double liftLow = 775;
-    public static double liftMid = 1425;
+    public static double liftMid = 1400;
     public static double liftHigh = 2125;
     public static double liftGround = 80;
     public static double armDownFront = 0;
@@ -41,6 +41,7 @@ public class ValueStorage {
     public static double grabAdjustIncrement = 95;
     public static double grabAdjustMax = 380;
     public static double grabHeight = 350;
+    public static double currentThreshold = 500;
     public static int signalMinCount = 10;
     public static Pose2d lastPose = new Pose2d(0, 0, 0);
 }

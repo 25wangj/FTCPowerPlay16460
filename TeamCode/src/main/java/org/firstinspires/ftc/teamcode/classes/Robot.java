@@ -60,7 +60,7 @@ public class Robot {
         wrist = hwMap.get(Servo.class, "wrist");
         claw = hwMap.get(Servo.class, "claw");
         gyro = hwMap.get(IMU.class, "gyro");
-        chub = hwMap.getAll(LynxModule.class).get(0);
+        chub = PhotonCore.CONTROL_HUB;
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
