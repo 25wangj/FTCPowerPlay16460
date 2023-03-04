@@ -57,7 +57,7 @@ public class ValueStorage {
             return armDropBack;
         }
     }
-    public static double currentThreshold = 500;
+    public static double currentThreshold = 1000;
     public static int signalMinCount = 10;
     public static Pose2d lastPose = new Pose2d(0, 0, 0);
 }
