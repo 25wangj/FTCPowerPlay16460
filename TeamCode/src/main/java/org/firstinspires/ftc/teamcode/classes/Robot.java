@@ -75,6 +75,7 @@ public class Robot {
                         RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                         RevHubOrientationOnRobot.UsbFacingDirection.UP));
                 gyro.initialize(parameters);
+                gyro.resetYaw();
             }
         }
         claw.setPosition(clawOpen);

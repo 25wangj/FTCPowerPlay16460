@@ -82,6 +82,7 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                 robot.drive.trajectorySequenceBuilder(dropPose)
                         .setReversed(true)
                         .splineTo(parkPose[0].vec(), 0)
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
@@ -95,6 +96,7 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                         .back(8)
                         .splineToSplineHeading(parkPose[1], -PI / 2)
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
@@ -107,6 +109,7 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                         .back(8)
                         .splineToSplineHeading(parkPose[1], -PI / 2)
                         .lineTo(parkPose[0].vec())
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;

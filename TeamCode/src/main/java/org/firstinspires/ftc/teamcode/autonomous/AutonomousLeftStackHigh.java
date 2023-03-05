@@ -4,10 +4,12 @@ import static java.lang.Math.*;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "LeftStackHigh")
+@Disabled
 public class AutonomousLeftStackHigh extends AbstractAutonomous {
     Pose2d dropPose1 = new Pose2d(27, 5, PI + 1);
     Pose2d dropPose2 = new Pose2d(29, 3, PI + 0.6);

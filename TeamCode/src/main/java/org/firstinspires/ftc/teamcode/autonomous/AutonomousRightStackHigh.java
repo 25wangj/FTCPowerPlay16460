@@ -4,10 +4,12 @@ import static java.lang.Math.*;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "RightStackHigh")
+@Disabled
 public class AutonomousRightStackHigh extends AbstractAutonomous {
     Pose2d dropPose1 = new Pose2d(-25, 5, -1);
     Pose2d dropPose2 = new Pose2d(-28, 2, -0.6);
@@ -123,6 +125,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                         .back(8)
                         .splineToSplineHeading(parkPose[1], PI / 2)
                         .lineTo(parkPose[0].vec())
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
@@ -136,6 +139,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                         .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(40))
                         .back(8)
                         .splineToSplineHeading(parkPose[1], PI / 2)
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
@@ -147,6 +151,7 @@ public class AutonomousRightStackHigh extends AbstractAutonomous {
                 robot.drive.trajectorySequenceBuilder(dropPose2)
                         .setReversed(true)
                         .splineTo(parkPose[2].vec(), PI)
+                        .waitSeconds(0.25)
                         .addTemporalMarker(0, 0.25, () -> {
                             robot.setLiftPos(time, 0, armWait);
                             readyToEnd = true;
