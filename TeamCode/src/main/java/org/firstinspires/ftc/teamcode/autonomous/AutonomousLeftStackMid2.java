@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "LeftStackMid2")
 public class AutonomousLeftStackMid2 extends AbstractAutonomous {
-    Pose2d dropPose = new Pose2d(30, 22, PI - 0.6);
+    Pose2d dropPose = new Pose2d(30, 23, PI - 0.6);
     Pose2d stackPose = new Pose2d(67, 14, PI);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(62, 13, PI), new Pose2d(38, 13, PI), new Pose2d(14, 13, PI)};
     TrajectorySequence traj1;
