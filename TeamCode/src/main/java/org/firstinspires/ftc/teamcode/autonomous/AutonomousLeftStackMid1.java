@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-@Autonomous(name = "LeftStackMid")
-public class AutonomousLeftStackMid extends AbstractAutonomous {
-    Pose2d dropPose = new Pose2d(30, 24, PI - 0.6);
-    Pose2d stackPose = new Pose2d(66, 13, PI);
+@Autonomous(name = "LeftStackMid1")
+public class AutonomousLeftStackMid1 extends AbstractAutonomous {
+    Pose2d dropPose = new Pose2d(30, 22, PI - 0.6);
+    Pose2d stackPose = new Pose2d(67, 13, PI);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(62, 11, PI), new Pose2d(38, 11, PI), new Pose2d(14, 11, PI)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
@@ -26,9 +26,10 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
     @Override
     public void initialize() {
         traj1 = robot.drive.trajectorySequenceBuilder(initPose())
-                .setTangent(-1.4)
-                .splineToSplineHeading(new Pose2d(37, 25, PI - 0.6), -PI / 2)
-                .lineTo(new Vector2d(37, 20))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(55, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
+                .splineTo(new Vector2d(36, 35), -PI / 2)
+                .lineToSplineHeading(new Pose2d(36, 16, PI - 0.6))
                 .lineTo(dropPose.vec())
                 .addTemporalMarker(1, -1.5, () -> {
                     robot.setLiftPos(time, liftMid, armDropFront);
@@ -39,8 +40,9 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                 })
                 .build();
         traj2 = robot.drive.trajectorySequenceBuilder(dropPose)
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(55, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .setReversed(true)
-                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
                 .splineTo(new Vector2d(57, 13), 0)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -54,7 +56,6 @@ public class AutonomousLeftStackMid extends AbstractAutonomous {
                 })
                 .waitSeconds(0.6)
                 .setReversed(false)
-                .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
                 .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
                 .splineTo(dropPose.vec(), dropPose.getHeading())
