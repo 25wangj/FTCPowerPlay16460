@@ -122,7 +122,7 @@ public class AutonomousRightStackMid2 extends AbstractAutonomous {
     public void run() {
         robot.drive.followTrajectorySequenceAsync(traj1);
         while (opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime() + 0.25))) {
-            time = clofck.seconds();
+            time = clock.seconds();
             for (int i = servoCurrent.length - 1; i >= 0 ; i--) {
                 if (i == servoCurrent.length - 1) {
                     averageCurrent -= servoCurrent[i] / servoCurrent.length;

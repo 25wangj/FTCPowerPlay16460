@@ -121,7 +121,7 @@ public class AutonomousLeftStackMid2 extends AbstractAutonomous {
     @Override
     public void run() {
         robot.drive.followTrajectorySequenceAsync(traj1);
-        while(opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime() + 0.25))) {
+        while (opModeIsActive() && !isStopRequested() && (!parkDone || (!readyToEnd && time < robot.restTime() + 0.25))) {
             time = clock.seconds();
             for (int i = servoCurrent.length - 1; i >= 0 ; i--) {
                 if (i == servoCurrent.length - 1) {

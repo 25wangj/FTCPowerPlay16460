@@ -67,6 +67,7 @@ public class Robot {
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftProfile = new DelayProfile(0, liftX, 0,0);
         armProfile = new DelayProfile(0, armX, 0, 0);
+        PhotonCore.experimental.setMaximumParallelCommands(8);
         PhotonCore.enable();
         if (usingGyro) {
             synchronized (gyroLock) {
