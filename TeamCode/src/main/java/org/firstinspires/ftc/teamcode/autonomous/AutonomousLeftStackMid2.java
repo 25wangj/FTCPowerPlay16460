@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "LeftStackMid2")
 public class AutonomousLeftStackMid2 extends AbstractAutonomous {
-    Pose2d dropPose = new Pose2d(30, 23, PI - 0.6);
-    Pose2d stackPose = new Pose2d(67, 14, PI);
+    Pose2d dropPose = new Pose2d(31, 23, PI - 0.6);
+    Pose2d stackPose = new Pose2d(67, 13, PI);
     Pose2d[] parkPose = new Pose2d[] {new Pose2d(62, 13, PI), new Pose2d(38, 13, PI), new Pose2d(14, 13, PI)};
     TrajectorySequence traj1;
     TrajectorySequence traj2;
@@ -26,7 +26,7 @@ public class AutonomousLeftStackMid2 extends AbstractAutonomous {
     @Override
     public void initialize() {
         traj1 = robot.drive.trajectorySequenceBuilder(initPose())
-                .setTangent(-1.45)
+                .setTangent(-1.43)
                 .splineToSplineHeading(new Pose2d(36, 23, PI - 0.6), -PI / 2)
                 .lineTo(new Vector2d(36, 16))
                 .lineTo(dropPose.vec())
@@ -41,7 +41,7 @@ public class AutonomousLeftStackMid2 extends AbstractAutonomous {
         traj2 = robot.drive.trajectorySequenceBuilder(dropPose)
                 .setReversed(true)
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
-                .splineTo(new Vector2d(57, 14), 0)
+                .splineTo(new Vector2d(57, 13), 0)
                 .lineTo(stackPose.vec())
                 .UNSTABLE_addTemporalMarkerOffset(-0.1, () -> {
                     robot.setLiftPos(time, stackOffsets[grabCycles], armDownBack);
@@ -55,7 +55,7 @@ public class AutonomousLeftStackMid2 extends AbstractAutonomous {
                 .waitSeconds(0.5)
                 .setReversed(false)
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(60))
-                .lineTo(new Vector2d(57, 14))
+                .lineTo(new Vector2d(57, 13))
                 .setAccelConstraint(SampleMecanumDrive.getAccelerationConstraint(50))
                 .splineTo(dropPose.vec(), dropPose.getHeading())
                 .addTemporalMarker(1, -1.5,() -> {
